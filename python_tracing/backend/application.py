@@ -13,7 +13,3 @@ def do_roll():
 @application.route("/getRequest", methods=['GET'])
 def get_request():
     return "success", 200
-
-
-if __name__ == '__main__':
-    application.run(port=5500, host="0.0.0.0", threaded=True)# host="0.0.0.0") #debug=True for tracing client debug logs

@@ -1,34 +1,27 @@
 version: '3'
 services:
   flask_app:
-    environment:
-        - FLASK_APP=application.py
-        - FLASK_DEBUG=1
-    image: 'thomaspark034/otel_python_app:latest'
-    entrypoint: []
+    build: ./backend/
     depends_on:
       - otel-collector
     labels:
-      com.datadoghq.tags.env: 'otel'
-      com.datadoghq.tags.service: 'otel-python'
-      com.datadoghq.tags.version: '2.1'
       my.custom.label.team: 'dev'
-      com.datadoghq.ad.logs: '[{"source": "python", "service": "flask_backend"}]'
     ports:
-      - '5500:5500'
+      - 5500:5500
 
   otel-collector:
     container_name: otel-collector
     image: otel/opentelemetry-collector-contrib
     command: [--config=/etc/otelcol-contrib/config.yaml]
+    env_file:
+      - ./otel-collector/.env.local
     volumes:
       - ./otel-collector/collector.yaml:/etc/otelcol-contrib/config.yaml
     ports:
-      - 1888:1888 # pprof extension
-      - 8888:8888 # Prometheus metrics exposed by the collector
-      - 8889:8889 # Prometheus exporter metrics
-      - 13133:13133 # health_check extension
-      - 4318:4318 # OTLP http receiver
-      - 4317:4317 # OTLP http receiver
-      - 55679:55679 # zpages extension
+      - 1888 # pprof extension
+      - 8888 # Prometheus metrics exposed by the collector
+      - 8889 # Prometheus exporter metrics
+      - 13133 # health_check extension
+      - 4317 # OTLP grpc receiver
+      - 55679 # zpages extension
 
