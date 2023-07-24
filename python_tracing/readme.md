@@ -1,6 +1,7 @@
-## Tracing a python application with the OTEL SDK
+### Sending Python Traces with OTEL
 
-## Configuring the OTEL Collector
+application.py is hosted on localhost port 5500. 
 
-## Configuring Datadog (APM + RUM)
+Add datadog api key to the docker-compose.yaml
 
+```docker compose up```
