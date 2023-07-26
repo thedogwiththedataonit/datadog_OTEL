@@ -20,7 +20,7 @@ datadogRum.init({
     defaultPrivacyLevel:'mask-user-input',
     allowedTracingUrls: [
       {
-        match: `${process.env.REACT_APP_BACKEND_URL}`,
+        match: `http://localhost:5500`,
         propagatorTypes: ["tracecontext"],
     },
     ],
