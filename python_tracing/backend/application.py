@@ -1,11 +1,17 @@
 from random import randint
-from flask import Flask
+from flask import Flask, jsonify
+from flask_cors import CORS
+from opentelemetry import trace
 
 application = Flask(__name__)
+cors = CORS(application)
+tracer = trace.get_tracer(__name__)
 
 @application.route("/rolldice")
 def roll_dice():
-    return str(do_roll())
+    with tracer.start_as_current_span("roll_dice"):
+        print("Rolling dice")
+        return jsonify({"dice": do_roll(), "trace": str(trace.get_current_span().get_span_context().trace_id)}), 200
 
 def do_roll():
     return randint(1, 6)
@@ -15,5 +21,3 @@ def get_request():
     return "success", 200
 
 
-if __name__ == '__main__':
-    application.run(port=5500, host="0.0.0.0", threaded=True)# host="0.0.0.0") #debug=True for tracing client debug logs

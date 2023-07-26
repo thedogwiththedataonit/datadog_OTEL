@@ -1,0 +1,19 @@
+.roll-dice-button {
+    padding: 20px 40px;
+    background-color: rgb(220, 240, 245);
+    outline: none;
+    box-shadow: 0px 0px 10px 0px inset rgba(23, 23, 23, 0.25);
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 60px 0 10px 0;
+    font-size: 1.3rem;
+    color: rgb(88, 88, 88);
+    border: 1px rgb(181, 181, 181) solid;
+    cursor: pointer;
+}
+.roll-dice-button:hover {
+    background-color: rgb(200, 220, 225);
+}
+.roll-dice-button:active{
+    background-color: rgb(180, 200, 205);
+}

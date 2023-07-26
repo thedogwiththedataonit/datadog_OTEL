@@ -5,6 +5,7 @@ charset-normalizer==3.2.0
 click==8.1.6
 Deprecated==1.2.14
 Flask==2.2.5
+Flask-Cors==4.0.0
 googleapis-common-protos==1.59.1
 grpcio==1.56.2
 idna==3.4

@@ -1,7 +1,7 @@
 receivers:
   otlp:
     protocols:
-      http:
+      grpc:
   # The hostmetrics receiver is required to get correct infrastructure metrics in Datadog.
 
 processors:
@@ -14,7 +14,7 @@ exporters:
   datadog:
     api:
       site: datadoghq.com
-      key: <api_key>
+      key: ${env:DD_API_KEY}
 
 service:
   pipelines:

@@ -1,1 +1,2 @@
 python_tracing/backend/venv
+python_tracing/otel-collector/.env.local
