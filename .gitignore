@@ -1,0 +1,2 @@
+otel_example/backend/venv
+otel_example/otel-collector/.env.local

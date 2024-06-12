@@ -1,0 +1,43 @@
+version: '3'
+services:
+  flask_app:
+    build: ./backend/
+    depends_on:
+      - datadog
+    labels:
+      my.custom.label.team: 'dev'
+    ports:
+      - 8126:8126
+      - 5500:5500
+    environment:
+      - DD_SERVICE=rolldice
+      - DD_ENV=dev
+      - DD_VERSION=1.0.0
+      - DD_TAGS=team:dev
+      - DD_AGENT_HOST=datadog
+      - DD_LOGS_INJECTION=true
+  
+  react_app:
+    build: ./frontend/
+    depends_on:
+      - datadog
+    labels:
+      my.custom.label.team: 'dev'
+    ports:
+      - 3000:3000
+  
+  datadog:
+    container_name: dd-agent
+    image: "gcr.io/datadoghq/agent:latest"
+    environment:
+       - DD_API_KEY=<API_KEY>
+       - DD_SITE=datadoghq.com  # Default. Change to eu.datadoghq.com, us3.datadoghq.com, us5.datadoghq.com as appropriate for your org
+       - DD_APM_ENABLED=true    # Enable APM
+       - DD_LOGS_ENABLED=true   # Enable logs
+       - DD_PROCESS_AGENT_ENABLED=true # Enable process agent
+       - DD_APM_NON_LOCAL_TRAFFIC=true # Enable APM for non-local traffic
+       - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+    volumes: 
+       - /var/run/docker.sock:/var/run/docker.sock:ro 
+       - /proc/:/host/proc/:ro
+       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro

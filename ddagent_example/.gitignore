@@ -1,0 +1,3 @@
+ddagent_example/backend/venv
+ddagent_example/backend/env
+ddagent_example/otel-collector/.env.local
