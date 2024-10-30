@@ -18,12 +18,12 @@ datadogRum.init({
     trackResources: true,
     trackLongTasks: true,
     defaultPrivacyLevel:'mask-user-input',
+    trackingConsent: "not-granted", //not-granted unless user consents
     allowedTracingUrls: [
       (url) => url.startsWith("http://localhost:5500")
     ],
 });
     
-datadogRum.startSessionReplayRecording();
 
 function App() {
   const [responseData, setResponseData] = useState([]);
@@ -35,13 +35,28 @@ function App() {
 
   return (
     <div className="App">
+      <header style={{backgroundColor:"gray", width: "100%", display:"flex", flexDirection:"column", alignItems:"center"}}>
+        
+        <p1 style={{"color":"white"}}>Datadog Agent Example</p1>
+        <p2 style={{"color":"white"}}>Do you grant Datadog permission to capture frontend data?</p2>
+        <div style={{display:"flex", flexDirection:"row"}}>
+          <button 
+            onClick={() => {datadogRum.setTrackingConsent("granted"); alert("You have granted permission to Datadog to capture frontend data.")}}
+            style={{"margin":"10px", "padding":"10px", "backgroundColor":"green", "color":"white"}}>Yes</button>
+          <button 
+            onClick={() => datadogRum.setTrackingConsent("not-granted")}
+            style={{"margin":"10px", "padding":"10px", "backgroundColor":"red", "color":"white"}}>No</button>
+        </div>
+        </header>
+      
       <RollDiceButton dataHandler={(data) => addData(data)}/>
-      <p>On button click, this will make a request to the backend where the OTEL SDK is instrumented.
+      <p>On button click, this will make a request to the backend where the Datadog agent is.
         <br></br>
-        The OTEL collector also sits in the same network and the SDK shoots traces to port 4317 via OTLP using grpc.
+        The Datadog agent also sits in the same network and the tracer shoots traces to port 8126.
         <br></br>
-        The OTEL collector submits traces to Datadogs backend.
+        The Datadog agent submits traces to Datadogs backend.
       </p>
+      
       <div className="data-row-title">
           <h1>Dice</h1>
           <h1>Trace Id</h1>
@@ -59,6 +74,7 @@ function App() {
         })
       }
       </div>
+
     </div>
   );
 }
